@@ -3,6 +3,20 @@
 This repo contains nodejs code that will use browser automation to list the repositories for a quay user.
 The list of repositories can then be used in a for loop (for example) to copy images from one repository to the other.
 
+# Prerequisites
+
+- nodejs (version 16+) installed
+
+# Structure
+
+```
+.
+└── quay-repos/
+  ├── login.js # script that logs into browser and saved token
+  ├── list.js  # script that goes to registries and lists repos
+  └── copy.js  # script that copies listed repos to destination registry
+```
+
 # Usage Steps
 
 1. run npm install to install depencencies.
@@ -41,7 +55,9 @@ node login.js
 node list.js
 ```
 
-1. Run the `copy.js` script to copy repositories from the `repos.txt` to the destination registry.
+6. Run the `copy.js` script to copy repositories from the `repos.txt` to the destination registry.
+
+> Inside the `copy.js` file, there is a `--dry-run` inside the copy command. Be sure to remove it to actually complete the copying.
 
 ```
 node copy.js

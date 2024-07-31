@@ -1,7 +1,5 @@
 const {
   logIfDebug,
-  wait,
-  selectors,
   SRC_REGISTRY_URL,
   SRC_REGISTRY_USERNAME,
   SRC_REGISTRY_PASSWORD,
@@ -79,21 +77,31 @@ if (!DEST_REGISTRY_PASSWORD) {
     console.log(
       `Init Copy ${i + 1}/${repos.length} (${SRC_REGISTRY_USERNAME}/${repo})...`
     );
-    const stdout = await asyncExec(
-      [
-        "skopeo sync",
-        "--all --preserve-digests --src docker --dest docker --dry-run",
-        `--src-username ${SRC_REGISTRY_USERNAME} --src-password ${SRC_REGISTRY_PASSWORD}`,
-        `--DEST-username ${DEST_REGISTRY_USERNAME} --DEST-password ${DEST_REGISTRY_PASSWORD}`,
-        `${src_registry}/${SRC_REGISTRY_USERNAME}/${repo} ${dest_registry}/${DEST_REGISTRY_USERNAME}`,
-      ].join(" ")
-    );
-    console.log(stdout);
-    console.log(
-      `Success Copy ${i + 1}/${
-        repos.length
-      } (${SRC_REGISTRY_USERNAME}/${repo})...`
-    );
+    try {
+      const stdout = await asyncExec(
+        [
+          "skopeo sync",
+          "--all --preserve-digests --keep-going --src docker --dest docker",
+          "--dry-run", // remove to actually run
+          `--src-username ${SRC_REGISTRY_USERNAME} --src-password ${SRC_REGISTRY_PASSWORD}`,
+          `--dest-username ${DEST_REGISTRY_USERNAME} --dest-password ${DEST_REGISTRY_PASSWORD}`,
+          `${src_registry}/${SRC_REGISTRY_USERNAME}/${repo} ${dest_registry}/${DEST_REGISTRY_USERNAME}`,
+        ].join(" ")
+      );
+      console.log(stdout);
+      console.log(
+        `Success Copy ${i + 1}/${
+          repos.length
+        } (${SRC_REGISTRY_USERNAME}/${repo})...`
+      );
+    } catch (err) {
+      console.log(err);
+      console.log(
+        `Failed Copy ${i + 1}/${
+          repos.length
+        } (${SRC_REGISTRY_USERNAME}/${repo})...`
+      );
+    }
   }
 
   console.log("All copy complete...");
