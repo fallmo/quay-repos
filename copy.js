@@ -75,7 +75,9 @@ if (!DEST_REGISTRY_PASSWORD) {
   for (let i = 0; i < repos.length; i++) {
     const [_registry, _user, repo] = repos[i].split("/");
     console.log(
-      `Init Copy ${i + 1}/${repos.length} (${SRC_REGISTRY_USERNAME}/${repo})...`
+      `\nInit Copy ${i + 1}/${
+        repos.length
+      } (${SRC_REGISTRY_USERNAME}/${repo})...`
     );
     try {
       const stdout = await asyncExec(

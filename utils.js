@@ -40,8 +40,10 @@ function asyncExec(command) {
   return new Promise((resolve, reject) => {
     child_process.exec(command, (error, stdout, stderr) => {
       if (error) reject(error);
-      if (stderr) return reject(stderr);
-      return resolve(stdout);
+
+      return resolve(
+        `STDOUT START\n${stdout}\nSTDOUT END\n\nSTDERR START\n${stderr}\nSTDERR END`
+      );
     });
   });
 }
