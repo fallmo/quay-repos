@@ -38,7 +38,7 @@ if (!SRC_REGISTRY_PASSWORD) {
 
   const pages = await browser.pages();
   const page = pages[0];
-  await page.setViewport({ width: 1300, height: 1080 });
+  await page.setViewport({ width: 1920, height: 1080 });
 
   logIfDebug("Opening registry page...");
   await page.goto(SRC_REGISTRY_URL, {});
@@ -50,7 +50,6 @@ if (!SRC_REGISTRY_PASSWORD) {
     console.log("Is already logged in..");
     await page.close();
   } catch (err) {
-    console.log(err);
     logIfDebug("Not logged in...");
   }
 

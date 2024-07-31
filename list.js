@@ -36,7 +36,7 @@ if (!SRC_REGISTRY_USERNAME) {
 
   const pages = await browser.pages();
   const page = pages[0];
-  await page.setViewport({ width: 1300, height: 1080 });
+  await page.setViewport({ width: 1920, height: 1080 });
 
   await page.goto(SRC_REGISTRY_URL, {});
   await wait(2000);
@@ -69,10 +69,12 @@ if (!SRC_REGISTRY_USERNAME) {
     });
 
     repo_names.flat().forEach((name) => {
-      const repo_name = `${SRC_REGISTRY_URL.replace(
+      const registry_name = SRC_REGISTRY_URL.replace("http://", "").replace(
         "https://",
         ""
-      )}/${SRC_REGISTRY_USERNAME}/${name}`;
+      );
+      const repo_name = `${registry_name}/${SRC_REGISTRY_USERNAME}/${name}`;
+
       repos.push(repo_name);
       console.log(repo_name);
     });

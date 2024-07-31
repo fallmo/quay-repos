@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const child_process = require("child_process");
 
 dotenv.config();
 
@@ -35,10 +36,21 @@ function logIfDebug(...text) {
   if (process.env.DEBUG === "true") console.log(...text);
 }
 
+function asyncExec(command) {
+  return new Promise((resolve, reject) => {
+    child_process.exec(command, (error, stdout, stderr) => {
+      if (error) reject(error);
+      if (stderr) return reject(stderr);
+      return resolve(stdout);
+    });
+  });
+}
+
 module.exports = {
-  selectors,
   wait,
   logIfDebug,
+  asyncExec,
+  selectors,
   SRC_REGISTRY_URL,
   SRC_REGISTRY_USERNAME,
   SRC_REGISTRY_PASSWORD,
